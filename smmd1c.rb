@@ -159,8 +159,8 @@ class Mastermind # Class Mastermind, this is Super Mastermind smmd1c.rb
     if @guesses.last == @master
       puts "\n\nCongratulations, #{boldg("YOU WON")}!\n"
     else
-      puts "\n\nYou lost! Correct code was: #{array_to_color_blocks(@master)}"
-      puts "                        #{array_to_list(@master)} " # Output is 'C' 'Y' 'C' 'Y' 'C'
+      puts "\n\nYou lost! The correct code was: #{array_to_color_blocks(@master)}"
+      puts "                           #{array_to_list(@master)} " # Output is 'C' 'Y' 'C' 'Y' 'C'
     end
   end
 
