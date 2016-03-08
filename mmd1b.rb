@@ -21,6 +21,8 @@ class Mastermind # Class Mastermind, this is Mastermind mmd1b.rb
 # whatify(string)   "\e[28m#{string}\e[0m"
 # boldg(string)     "\e[1;32m#{string}\e[0m"
 
+#------------------------------------------------------------------------------------------
+
   def initialize # Method initialize, allocate space for objects
     arr = [] # Array arr set up with 0 elements
     colors = ["R","Y","G","C","B","P"] # Array colors holds all 6 available peg colors
@@ -33,6 +35,8 @@ class Mastermind # Class Mastermind, this is Mastermind mmd1b.rb
     @guesses = [] # initialize instance array @guesses to empty
     @guesses_in_color = [] # initialize instance array @guesses_in_color to empty
   end
+
+#------------------------------------------------------------------------------------------
 
   def instructions # Method, Print Instructions to the screen
     # cls = clear screen with # 35 lines
@@ -49,31 +53,43 @@ class Mastermind # Class Mastermind, this is Mastermind mmd1b.rb
     puts "                Please enter your guess, e.g. 'rygc' "
   end
 
+#------------------------------------------------------------------------------------------
+
   def make_guess # get input guess, separate characters, make upper case
     gets.chomp.upcase.split(//)
   end
  
+#------------------------------------------------------------------------------------------
+
   def array_to_list(array) # Change ("Y", "G", "C", "B") to ('Y' 'G' 'C' 'B')
     readx = array.map{ |i|  %Q('#{i}') }.join(' ')
   end
+
+#------------------------------------------------------------------------------------------
 
   def array_to_color_blocks(array) # Change ("Y", "G", "C", "B") to ('Y' 'G' 'C' 'B')
     ready = array.map { |e| @color_blocks[e] }
     ready.join(" ") # separate color blocks with spaces for better appearance
   end
 
+#------------------------------------------------------------------------------------------
+
   # Changed to display current round, instead of all together without B or W scores.
   def display_rounds(i) # And still wishing it was all on a single line...
   # print "#{@guesses[i]} " #               Output is ["C", "Y", "C", "Y"]
     print " #{array_to_list(@guesses[i])} " # Output is 'C' 'Y' 'C' 'Y'
     (i+1).upto(i+1) do |n|
-     display_guess(n-1)
+      display_guess(i)
     end
   end
 
+#------------------------------------------------------------------------------------------
+
   def display_guess(i)
-    print i + 1 < 10 ? "Round #{i+1}:  #{@guesses_in_color[i]}" : "Round #{i+1}:  #{@guesses_in_color[i]}" 
+    print i < 9 ? " Round 0#{i+1}: #{@guesses_in_color[i]}" : " Round #{i+1}: #{@guesses_in_color[i]}" 
   end
+
+#------------------------------------------------------------------------------------------
 
   def black_pegs(master, guess)
     for i in (0..3) do
@@ -85,6 +101,8 @@ class Mastermind # Class Mastermind, this is Mastermind mmd1b.rb
     master
   end
 
+#------------------------------------------------------------------------------------------
+
   def white_pegs(master, guess)
     for i in (0..3) do
       if master.include?(guess[i])
@@ -95,12 +113,16 @@ class Mastermind # Class Mastermind, this is Mastermind mmd1b.rb
     master
   end
 
+#------------------------------------------------------------------------------------------
+
   def get_feedback(m, g)
     mas = m.dup
     gue = g.dup
     feedback = []
     white_pegs(black_pegs(mas, gue), gue)
   end
+
+#------------------------------------------------------------------------------------------
 
   def print_feedback(array)
     feedback = []
@@ -116,6 +138,8 @@ class Mastermind # Class Mastermind, this is Mastermind mmd1b.rb
     feedback
   end
 
+#------------------------------------------------------------------------------------------
+
   def game_over?(i)
     if @guesses[i] == @master
       true
@@ -126,14 +150,18 @@ class Mastermind # Class Mastermind, this is Mastermind mmd1b.rb
     end
   end
 
+#------------------------------------------------------------------------------------------
+
   def finished
     if @guesses.last == @master
       puts "\n\nCongratulations, #{boldg("YOU WON")}!\n"
     else
-      puts "\n\nYou lost! Correct code is: #{array_to_color_blocks(@master)}"
-      puts "                       #{array_to_list(@master)} " # Output is 'C' 'Y' 'C' 'Y'
+      puts "\n\nYou lost! Correct code was: #{array_to_color_blocks(@master)}"
+      puts "                        #{array_to_list(@master)} " # Output is 'C' 'Y' 'C' 'Y'
     end
   end
+
+#------------------------------------------------------------------------------------------
 
   def round(i) # User makes a guess
     #    print "\nPlease take a guess, e.g. 'rygc' >> "
@@ -146,13 +174,15 @@ class Mastermind # Class Mastermind, this is Mastermind mmd1b.rb
     # Give user feedback
     user_feedback = get_feedback(@master, @guesses[i])
     # print "\nFeedback:  " + print_feedback(user_feedback).sort.join(" ") # I don't want the 'new line'
-    print " Feedback:" + print_feedback(user_feedback).sort.join(" ") # just a space please
+    print "  Feedback: " + print_feedback(user_feedback).sort.join(" ") # just a space please
     # testing outputs
     # print "\n testing outputs "
     # puts " Your Guess was:  #{array_to_list(@guesses[i])}"
     # puts " Your Guess was:  #{array_to_color_blocks(@guesses[i])}"
     # puts " Correct code is: #{array_to_color_blocks(@master)}"
   end
+
+#------------------------------------------------------------------------------------------
 
   def rounds
     10.times do |i|
@@ -162,10 +192,14 @@ class Mastermind # Class Mastermind, this is Mastermind mmd1b.rb
   end
 end
 
+#------------------------------------------------------------------------------------------
+
 game = Mastermind.new
 game.instructions
 game.rounds
 game.finished
+
+#------------------------------------------------------------------------------------------
 
 # Wishes - an easy way to place output in a specific spot on the screen? (Try another programming language?)
 # If I bothered to flowchart this and dig deeper, it could be a little more simple?
